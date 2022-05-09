@@ -1,23 +1,14 @@
+
 const complimentBtn = document.getElementById("complimentButton")
-const fortuneBtn = document.getElementById("fortuneButton")
-const jokeBtn = document.getElementById("randomJoke")
-const addJoke = document.getElementById("add")
-const deleteJoke = document.getElementById("delete")
-const updateJoke = document.getElementById("update")
-
-globalId = 4
-
-
-
-
 const getCompliment = () => {
     axios.get("http://localhost:4000/api/compliment/")
-        .then(res => {
-            const data = res.data;
-            alert(data);
+    .then(res => {
+        const data = res.data;
+        alert(data);
     });
 };
 
+const fortuneBtn = document.getElementById("fortuneButton")
 const getFortune = () => {
     axios.get("http://localhost:4000/api/fortune")
     .then(res => {
@@ -25,6 +16,7 @@ const getFortune = () => {
         alert(data)
     })
 }
+const jokeBtn = document.getElementById("randomJoke")
 const getJoke = () => {
     axios.get("http://localhost:4000/api/joke")
     .then(res => {
@@ -32,23 +24,36 @@ const getJoke = () => {
         alert(data)
     })
 }
+const newJokeInput = document.getElementById('NewJokeInput')
+const addUrJokeBtn = document.querySelector('#add-your-joke')
+
 const addUrJoke = () => {
-    axios.post("http://localhost:4000/api/addJoke")
+    const newJoke = newJokeInput.value
+    axios.post("http://localhost:4000/api/joke", {newJoke})
     .then(res => {
-        const data = res.data
-        alert(data)
+        newJokeInput.value = ''
+        alert(res.data)
+        
     })
-}
-const deleteUrJoke = id => 
-    axios.delete("http://localhost:4000/api/deleteJoke")
-
-const updateUrJoke = () => {
-    axios.put("http://localhost:4000/api/updateJoke")
-
     
 }
+addUrJokeBtn.addEventListener('click', addUrJoke)
 
 
+const deleteBtn = document.getElementById('delete')
+
+const deleteBtnInput = document.querySelector('#delete-input')
+
+const deleteJoke = () => {
+    axios.delete(`http://localhost:4000/api/joke/${deleteInput.value}`)
+    .then(res => {
+        alert(res.data)
+        deleteInput.value = ''
+    })
+    .catch(err => {
+        alert(err)
+    })
+}
 
 
 
@@ -56,8 +61,19 @@ const updateUrJoke = () => {
 
 
 complimentBtn.addEventListener('click', getCompliment)
+
 fortuneBtn.addEventListener('click', getFortune)
+
 jokeBtn.addEventListener('click', getJoke)
-addJoke.addEventListener('click', addUrJoke)
-deleteJoke.addEventListener('click', deleteUrJoke)
-updateJoke.addEventListener('click', updateUrJoke)
+
+
+
+
+deleteBtn.addEventListener('click', deleteJoke)
+
+
+
+
+
+
+

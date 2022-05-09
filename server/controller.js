@@ -1,3 +1,5 @@
+const jokes = ["I'm afraid for the calendar. Its days are numbered.", "Why do fathers take an extra pair of socks when they go golfing? In case they get a hole in one!", "What do you call a fish wearing a bowtie? Sofishticated.", "How do you follow Will Smith in the snow? You follow the fresh prints."]
+
 module.exports = {
 
     getCompliment: (req, res) => {
@@ -20,35 +22,31 @@ module.exports = {
     getJoke: (req, res) => {
         const jokes = ["I'm afraid for the calendar. Its days are numbered.", "Why do fathers take an extra pair of socks when they go golfing? In case they get a hole in one!", "What do you call a fish wearing a bowtie? Sofishticated.", "How do you follow Will Smith in the snow? You follow the fresh prints."]
         
-        let randomIndex = Math.floor(Math.random() * jokes.length)
+         let randomIndex = Math.floor(Math.random() * jokes.length)
         let randomJoke = jokes[randomIndex]
 
         res.status(200).send(randomJoke)
    
    
     },
-    postJoke: (req, res) => {
-        const jokes = ["I'm afraid for the calendar. Its days are numbered.", "Why do fathers take an extra pair of socks when they go golfing? In case they get a hole in one!", "What do you call a fish wearing a bowtie? Sofishticated.", "How do you follow Will Smith in the snow? You follow the fresh prints."]
-            let { text } = req.body
-            let newJoke = {
-                id: globalId,
-                text
+    addUrJoke: (req, res) => {
+        const { newJoke } = req.body
+        
+        jokes.push(newJoke)
+        
+        res.status(200).send('joke added')
+    },
+             
+        deleteJoke: (req, res) => {
+            const {id} = req.params
+
+            if(jokes[+id]) {
+                jokes.splice(id, 1)
+                res.status(200).send('joke removed')
+
+            } else {
+                res.status(400).send('no joke to remove')
             }
-             jokes.push(newJoke)
-            res.status(200).send(jokes)
-            globalId++
-    },
-    deleteJoke: (req, res) => {
-        const jokes = ["I'm afraid for the calendar. Its days are numbered.", "Why do fathers take an extra pair of socks when they go golfing? In case they get a hole in one!", "What do you call a fish wearing a bowtie? Sofishticated.", "How do you follow Will Smith in the snow? You follow the fresh prints."]
-        let index = jokes.findIndex(elem => elem.id === +req.params.id)
-        jokes.splice(index, 1)
-        res.status(200).send(jokes)
-    },
-    updateJoke: (req, res) => {
-        const jokes = ["I'm afraid for the calendar. Its days are numbered.", "Why do fathers take an extra pair of socks when they go golfing? In case they get a hole in one!", "What do you call a fish wearing a bowtie? Sofishticated.", "How do you follow Will Smith in the snow? You follow the fresh prints."]
-        let { id } = req.params
-        let { type } = req.body
-        let index = jokes.findIndex(elem => +elem.id === +id)
-        return(jokes)
+            
+        }    
     }
-}
